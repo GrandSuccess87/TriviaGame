@@ -1,0 +1,28 @@
+body {
+    background-color: purple;
+}
+
+h1 {
+    text-align: center;
+    color: goldenrod;
+}
+
+h2 {
+    text-align: center;
+   
+}
+
+.hashtagimage {
+    width: 700px;
+    height: 150px;
+}
+
+#time {
+    text-align: center;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: goldenrod;
+}
+
+
+
