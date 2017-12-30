@@ -2,13 +2,18 @@ var number = 45;
 
 var intervalId;
 
-// var questions = [
-//     {
-//         question: "Lorem Ipsum question1",
-//         choices: ["Answer", "Answer", "Answer",],
-//         answer: 2
-//     },
-// ]
+var questions = [
+    {
+        question: "You are a Millennial if you were born between?",
+        choices: {
+            A: '1984-2006',
+            B: '1971-1981',
+            C: '1997-2007',
+            D: '1981-1997'
+        },
+        correctAnswer: 'D'
+    },
+]
 
 function run() {
     clearInterval(intervalId);
