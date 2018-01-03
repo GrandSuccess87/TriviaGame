@@ -67,7 +67,7 @@ var questions = [
             C: 'Mac Miller',
             D: 'The Weekend'
         },
-        answerChoice: 'D'
+        correctAnswer: 'D'
     },
 
     {
@@ -78,7 +78,7 @@ var questions = [
             C: 'Pretend your taking photos',
             D: 'Give the phone to your 9 year old granddaughter'
         },
-        answerChoice: 'A'
+        correctAnswer: 'A'
     },
 
     {
@@ -95,6 +95,8 @@ var questions = [
 
 ];
 
+
+
 function run() {
     clearInterval(intervalId);
     intervalId = setInterval(decrement, 1000);
@@ -106,11 +108,17 @@ function decrement() {
     if (number === 0) {
         stop();
         alert("Time is Up!");
-        nextQuestion();
+        // nextQuestion();
 
     }
 }
 
+function reset () {
+    number = 45;
+    run();
+    decrement();
+
+}
 
 function stop() {
     clearInterval(intervalId);
@@ -132,15 +140,6 @@ function stop() {
 //             }
 //           }
 
-
-
-
-// function nextQuestion() {
-//     number = 45;
-//     run();
-//     decrement();
-// }
-
 run();
 
 //Select HTML Tags and store references to the elements in variables
@@ -151,6 +150,9 @@ var resultsContainer =
 document.getElementById('results');
 var submitButton = 
 document.getElementById('submit');
+
+//Populate one question at a time
+
 
 //Display the quiz right away
 
@@ -181,6 +183,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
                 + '</label>'
             );
         }
+        
         //Using Template Literals
         // choices.push(
         //     `<label>
@@ -193,10 +196,18 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         //Add this question and its answers to the output
 
             output.push(
+                '<div class="questionAnswerGroup">'+
+
                 '<div class="question">' + questions[i].question + '</div>'
                 + 
                 '<div class="answers">' + choices.join('') + '</div>'
-                // <div class="answers"> $(choices.join('')} </div>');
+                +
+                '</div>' 
+
+                 // <div class="answers"> $(choices.join('')} </div>'); */}
+
+                 
+                
             );
 
         }
@@ -210,7 +221,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     // Gather answer containers from quiz
 
         var answerContainers = 
-        quizContainer.querySelectorAll('.choices');
+        quizContainer.querySelectorAll('.answers');
 
     // Keep track of user's answers
 
@@ -247,11 +258,15 @@ showQuestions(questions, quizContainer);
 
 // on submit, show results
 
-submitButton.addEventListener('click', showResults);
-
 submitButton.onclick = function(){
     showResults(questions, quizContainer, resultsContainer);
+    stop();
+   
 }
+
+
+
+
 
 }
 
