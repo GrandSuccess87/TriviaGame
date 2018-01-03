@@ -3,7 +3,6 @@ var number = 45;
 var intervalId;
 
 
-
 var questions = [
     {
         question: "You are a Millennial if you were born between?",
@@ -136,13 +135,15 @@ function stop() {
 
 
 
-function nextQuestion() {
-    number = 45;
-    run();
-    decrement();
-}
+// function nextQuestion() {
+//     number = 45;
+//     run();
+//     decrement();
+// }
 
 run();
+
+//Select HTML Tags and store references to the elements in variables
 
 var quizContainer =
 document.getElementById('quiz');
@@ -151,48 +152,72 @@ document.getElementById('results');
 var submitButton = 
 document.getElementById('submit');
 
+//Display the quiz right away
+
 generateQuiz(questions, quizContainer, resultsContainer, submitButton);
+
+//Create the generateQuiz function
 
 function generateQuiz(questions, quizContainer, resultsContainer, submitButton) {
 
     function showQuestions(questions, quizContainer) {
+        //Create a space to store HTML output and answer choices
         var output = [];
         var choices;
 
+        //For each question store a list of answer choices
         for (var i=0; i<questions.length; i++) {
             choices = [];
 
+        //For each available answer add an HTML radio button
         for(letter in questions[i].choices) {
             choices.push(
                 '<label>'
                 + '<input type="radio" name="question'+i+'"value="'+letter+'">'
-
+                
                 + letter + ': '
                 +
             questions[i].choices[letter]
                 + '</label>'
             );
         }
+        //Using Template Literals
+        // choices.push(
+        //     `<label>
+        //       <input type="radio" name="question${questionNumber}" value="${letter}">
+        //       ${letter} :
+        //       ${currentQuestion.answers[letter]}
+        //     </label>`
+        //   );
+        // }
+        //Add this question and its answers to the output
 
             output.push(
                 '<div class="question">' + questions[i].question + '</div>'
                 + 
                 '<div class="answers">' + choices.join('') + '</div>'
+                // <div class="answers"> $(choices.join('')} </div>');
             );
 
         }
-
+        //Combine our output list into one string of HTML and put on the page
         quizContainer.innerHTML = output.join('');
     }
 
 
     function showResults (questions, quizContainer, resultsContainer) {
-        
+         
+    // Gather answer containers from quiz
+
         var answerContainers = 
         quizContainer.querySelectorAll('.choices');
 
+    // Keep track of user's answers
+
         var userAnswer = '';
         var numberCorrect = 0;
+
+    // For each question find the answer selected
 
         for(var i=0; i<questions.length; i++) {
             userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||
@@ -200,7 +225,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 
         if(userAnswer===questions[i].correctAnswer){
             // add to the number of correct answers
-            numCorrect++;
+            numberCorrect++;
             
             // color the answers green
             answerContainers[i].style.color = 'lightgreen';
@@ -214,13 +239,16 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     }
 
     // show number of correct answers out of total
-    resultsContainer.innerHTML = numCorrect + ' out of ' + questions.length;
+    resultsContainer.innerHTML = numberCorrect + ' out of ' + questions.length;
 }
 
-// show questions right away
+// show quiz right away
 showQuestions(questions, quizContainer);
 
 // on submit, show results
+
+submitButton.addEventListener('click', showResults);
+
 submitButton.onclick = function(){
     showResults(questions, quizContainer, resultsContainer);
 }
