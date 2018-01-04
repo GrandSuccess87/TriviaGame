@@ -16,7 +16,7 @@ document.querySelector('questionAnswerGroup').style.visibility = 'hidden';
 radios.addEventListener('click', visibility, true);
 
 
-var radios = document.querySelectorAll("[type='radio']");
+var radios = document.getElementsByClassName("radioButton");
 
 radios.addEventListener('click', function visibility (e) {
     // e.target.style.visibility = 'visible';

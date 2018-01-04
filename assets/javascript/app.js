@@ -106,9 +106,10 @@ function decrement() {
     number--;
     $("#show-number").html("<h2>" + number + "</h2>");
     if (number === 0) {
-        stop();
+        // stop();
         alert("Time is Up!");
-        // nextQuestion();
+        reset();
+       
 
     }
 }
@@ -124,21 +125,6 @@ function stop() {
     clearInterval(intervalId);
 }
 
-
-
-
-// function quizQuestions() {
-    
-//            for (var i = 0; i < questions.length; i++) {
-//                $("#quiz").append(
-//                 "<div class='question'>" + questions[i].question + "</div>" +
-//                 "<form action=''>" +  
-//                "<input type='radio' class='answerChoice'>"+ questions[i].choices[0]+ "</div>" +
-//                 "<input type='radio' class='answerChoice'>"+ questions[i].choices[1]+ "</div>" +
-//                 "<input type='radio' class='answerChoice'>"+ questions[i].choices[2]+ "</div>" + "</form>");
-    
-//             }
-//           }
 
 run();
 
@@ -174,7 +160,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         //For each available answer add an HTML radio button
         for(letter in questions[i].choices) {
             choices.push(
-                '<label>'
+                '<label>' +'<br>'
                 + '<input type="radio" name="question'+i+'"value="'+letter+'">'
                 
                 + letter + ': '
@@ -196,7 +182,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         //Add this question and its answers to the output
 
             output.push(
-                '<div class="questionAnswerGroup">'+
+                '<div class="questionAnswerGroup" style="display: none;">'+
 
                 '<div class="question">' + questions[i].question + '</div>'
                 + 
@@ -204,17 +190,30 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
                 +
                 '</div>' 
 
-                 // <div class="answers"> $(choices.join('')} </div>'); */}
-
-                 
                 
             );
 
         }
-        //Combine our output list into one string of HTML and put on the page
-        quizContainer.innerHTML = output.join('');
-    }
 
+        //Combine the output list into one string of HTML and put on the page
+        quizContainer.innerHTML = output.join('');
+    
+
+ 
+
+    $("[type='radio']").click(function(e){
+        $(e.currentTarget).parent().parent().parent().hide();
+        $(e.currentTarget).parent().parent().parent().next().show();
+    })
+
+    $($(".questionAnswerGroup")[0]).show();
+    
+}
+
+    // $(".questionAnswerGroup").css({
+    //      e.currentTarget.parentElement.parentElement.parentElement.style.display = "none";
+    //         e.currentTarget.parentElement.parentElement.parentElement.nextSibling.style.display = "block";
+    //   });
 
     function showResults (questions, quizContainer, resultsContainer) {
          
@@ -227,6 +226,8 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 
         var userAnswer = '';
         var numberCorrect = 0;
+        var numberIncorrect = 0;
+        var numberUnanswered = 0;
 
     // For each question find the answer selected
 
@@ -235,22 +236,53 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         {}).value;
 
         if(userAnswer===questions[i].correctAnswer){
+            
             // add to the number of correct answers
             numberCorrect++;
+
+        
             
             // color the answers green
             answerContainers[i].style.color = 'lightgreen';
         }
 
-         // if answer is wrong or blank
-         else{
+        // if answer is wrong
+        if(userAnswer !=questions[i].correctAnswer){
+            // add to the number of correct answers
+            numberIncorrect++;
+
             // color the answers red
             answerContainers[i].style.color = 'red';
+        }
+         // if answer is blank
+         else{
+             // add to number of unanswered
+             numberUnanswered++;
+
         }
     }
 
     // show number of correct answers out of total
-    resultsContainer.innerHTML = numberCorrect + ' out of ' + questions.length;
+    // resultsContainer.innerHTML = numberCorrect + ' out of ' + questions.length;
+
+    // shower number of correct, incorrect, and unanswered questions
+
+    $("#show-number").html("<h2>" + number + "</h2>");
+    $("#quiz").html("<h2>" + 'All Done, Heres How You Did!!' + "</h2>");
+    
+    $("#resultsCorrect").html("<h2>" + 'Correct Answers:' + numberCorrect + "</h2>");
+    $("#resultsIncorrect").html("<h2>" + 'Incorrect Answers:' + numberIncorrect + "</h2>");
+    $("#resultsUnanswered").html("<h2>" + 'Unanswered:' + numberUnanswered + "</h2>");
+    $("#startOver").html("<h2>" + 'Start Over?!' + "</h2>");
+
+    $("#submit").hide();
+    
+
+
+    // resultsContainer.innerHTML = "<h2>" + 'Correct Answers:' + numberCorrect + "</h2>"; 
+    // resultsContainer.innerHTML = "<h3>" + 'Incorrect Answers:' + numberIncorrect + "</h3>";
+    
+
 }
 
 // show quiz right away
@@ -261,16 +293,24 @@ showQuestions(questions, quizContainer);
 submitButton.onclick = function(){
     showResults(questions, quizContainer, resultsContainer);
     stop();
+  
    
 }
 
-
-
-
-
 }
 
-        
+   //Need to restart timer after user selects an answer
+   //restart timer after time=0
+   //Have radio button fill in once selected
+   //Highlight answer choices when hovered over
+   //Add text to html to say if answer is correct or incorrect
+   //Display get results on last question Ommit
+   //When user clicks show results Complete
+   //update html to say All done, here's how you did! Complete
+   //correct answers: '' Complete
+   //incorrect answers:''Complete
+   //unanswered: '' Complete
+   //Start Over?     Complete
     
 
 
