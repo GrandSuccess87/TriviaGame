@@ -240,10 +240,13 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
             // add to the number of correct answers
             numberCorrect++;
 
-        
+    
             
             // color the answers green
             answerContainers[i].style.color = 'lightgreen';
+
+            
+
         }
 
         // if answer is wrong
@@ -253,6 +256,8 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 
             // color the answers red
             answerContainers[i].style.color = 'red';
+
+         
         }
          // if answer is blank
          else{
@@ -267,15 +272,19 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 
     // shower number of correct, incorrect, and unanswered questions
 
+    
+
     $("#show-number").html("<h2>" + number + "</h2>");
     $("#quiz").html("<h2>" + 'All Done, Heres How You Did!!' + "</h2>");
     
     $("#resultsCorrect").html("<h2>" + 'Correct Answers:' + numberCorrect + "</h2>");
     $("#resultsIncorrect").html("<h2>" + 'Incorrect Answers:' + numberIncorrect + "</h2>");
     $("#resultsUnanswered").html("<h2>" + 'Unanswered:' + numberUnanswered + "</h2>");
-    $("#startOver").html("<h2>" + 'Start Over?!' + "</h2>");
+    
+    $("#startOver").hide();
 
     $("#submit").hide();
+   
     
 
 
@@ -298,11 +307,11 @@ submitButton.onclick = function(){
 }
 
 }
-
+   //Stop timer from counting down once quiz is complete 
    //Need to restart timer after user selects an answer
-   //restart timer after time=0
-   //Have radio button fill in once selected
-   //Highlight answer choices when hovered over
+   //restart timer after time=0 Complete
+   //Highlight answer choices when hovered over. may need to create a new type of button and update the button type in the click function
+   //create a start over button via javascript
    //Add text to html to say if answer is correct or incorrect
    //Display get results on last question Ommit
    //When user clicks show results Complete
