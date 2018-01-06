@@ -127,6 +127,7 @@ function stop() {
 
 
 run();
+decrement();
 
 //Select HTML Tags and store references to the elements in variables
 
@@ -161,7 +162,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         for(letter in questions[i].choices) {
             choices.push(
                 '<label>' +'<br>'
-                + '<input type="radio" name="question'+i+'"value="'+letter+'">'
+                + '<input type="radio" name="question"'+i+'"value="'+letter+'">'
                 
                 + letter + ': '
                 +
@@ -268,6 +269,13 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         }
     }
 
+    function endQuiz(questions, quizContainer, resultsContainer){
+
+        if(questions === 0) {
+            showResults(questions, quizContainer, resultsContainer);
+            stop();
+        }
+    }
     // show number of correct answers out of total
     // resultsContainer.innerHTML = numberCorrect + ' out of ' + questions.length;
 
@@ -276,7 +284,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     
 
     $("#show-number").html("<h2>" + number + "</h2>");
-    $("#quiz").html("<h2>" + 'All Done, Heres How You Did!!' + "</h2>");
+    $("#quiz").html("<h4>" + 'All Done, Heres How You Did!!' + "</h4>");
     
     $("#resultsCorrect").html("<h2>" + 'Correct Answers:' + numberCorrect + "</h2>");
     $("#resultsIncorrect").html("<h2>" + 'Incorrect Answers:' + numberIncorrect + "</h2>");
@@ -308,12 +316,15 @@ submitButton.onclick = function(){
 }
 
 }
-   //Stop timer from counting down once quiz is complete 
-   //Need to restart timer after user selects an answer
+   //Stop timer from counting down once quiz is done
+   //remove show results button so that results automatically pop up when quize is complete
+   //Need to restart timer after user selects an answer Complete
    //restart timer after time=0 Complete
-   //Highlight answer choices when hovered over. may need to create a new type of button and update the button type in the click function
+   //Highlight answer choices when hovered over. css or may need to create a new type of button and update the button type in the click function
    //create a start over button via javascript
    //Add text to html to say if answer is correct or incorrect
+   //Fix unanswered variable to display unanswered++; when questions left blank
+   //modify css file so that questions and answers are centered/not close to left margin Complete
    //Display get results on last question Ommit
    //When user clicks show results Complete
    //update html to say All done, here's how you did! Complete
