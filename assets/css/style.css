@@ -22,7 +22,20 @@ h2 {
     font-size: 18px;
     font-family: Arial, Helvetica, sans-serif;
     color: goldenrod;
+    
 }
 
+#quiz {
+    margin-left: 20%;
+    font-size: 28px;
+}
+
+.answers {
+    /* margin-left: 5%; */
+}
+#submit {
+    margin-left: 40%;
+    margin-top: 20px;
+}
 
 

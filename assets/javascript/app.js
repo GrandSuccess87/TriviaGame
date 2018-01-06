@@ -204,6 +204,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     $("[type='radio']").click(function(e){
         $(e.currentTarget).parent().parent().parent().hide();
         $(e.currentTarget).parent().parent().parent().next().show();
+        reset();
     })
 
     $($(".questionAnswerGroup")[0]).show();
