@@ -271,11 +271,14 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 
     function endQuiz(questions, quizContainer, resultsContainer){
 
-        if(questions === 0) {
+        if(i === (questions.length)) {
             showResults(questions, quizContainer, resultsContainer);
             stop();
         }
     }
+
+   
+
     // show number of correct answers out of total
     // resultsContainer.innerHTML = numberCorrect + ' out of ' + questions.length;
 
@@ -306,12 +309,16 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 // show quiz right away
 showQuestions(questions, quizContainer);
 
+// end quiz so user input is not required
+endQuiz(questions, quizContainer, resultsContainer);
+
 // on submit, show results
 
 submitButton.onclick = function(){
     showResults(questions, quizContainer, resultsContainer);
     stop();
   
+
    
 }
 
