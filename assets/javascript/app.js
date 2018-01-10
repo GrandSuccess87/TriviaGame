@@ -1,6 +1,15 @@
-var number = 45;
+var number = 20;
+
+var userAnswer = '';
+
+
+var numberCorrect = 0;
+var numberIncorrect = 0;
+var numberUnanswered = 0;
 
 var intervalId;
+
+
 
 
 var questions = [
@@ -75,7 +84,7 @@ var questions = [
         choices: {
             A: 'Take a Selfie',
             B: 'Have no clue where to find the camera',
-            C: 'Pretend your taking photos',
+            C: 'Pretend you are taking photos',
             D: 'Give the phone to your 9 year old granddaughter'
         },
         correctAnswer: 'A'
@@ -115,9 +124,16 @@ function decrement() {
 }
 
 function reset () {
-    number = 45;
+
+    number = 20;
+    userAnswer = '';
+    numberCorrect = 0;
+    numberIncorrect = 0;
+    numberUnanswered = 0;
+    
     run();
     decrement();
+ 
 
 }
 
@@ -148,8 +164,10 @@ generateQuiz(questions, quizContainer, resultsContainer, submitButton);
 //Create the generateQuiz function
 
 function generateQuiz(questions, quizContainer, resultsContainer, submitButton) {
+    console.log("generateQuiz");
 
     function showQuestions(questions, quizContainer) {
+        console.log("showQuestions");
         //Create a space to store HTML output and answer choices
         var output = [];
         var choices;
@@ -162,7 +180,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         for(letter in questions[i].choices) {
             choices.push(
                 '<label>' +'<br>'
-                + '<input type="radio" name="question"'+i+'"value="'+letter+'">'
+                + '<input type="radio" name="question'+i+'"value="'+letter+'">'
                 
                 + letter + ': '
                 +
@@ -206,6 +224,11 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         $(e.currentTarget).parent().parent().parent().hide();
         $(e.currentTarget).parent().parent().parent().next().show();
         reset();
+        /*
+        if (i === questions.length -1 ) {
+            endQuiz(resultsContainer);
+            stop();
+        }*/
     })
 
     $($(".questionAnswerGroup")[0]).show();
@@ -218,18 +241,21 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     //   });
 
     function showResults (questions, quizContainer, resultsContainer) {
+        console.log("showResults");
          
     // Gather answer containers from quiz
 
         var answerContainers = 
-        quizContainer.querySelectorAll('.answers');
+        document.querySelectorAll('.answers');
 
     // Keep track of user's answers
 
-        var userAnswer = '';
-        var numberCorrect = 0;
-        var numberIncorrect = 0;
-        var numberUnanswered = 0;
+        // var userAnswer = '';
+        // var numberCorrect = 0;
+        // var numberIncorrect = 0;
+        // var numberUnanswered = 0;
+
+        
 
     // For each question find the answer selected
 
@@ -241,40 +267,50 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
             
             // add to the number of correct answers
             numberCorrect++;
+            // ("Yes! You Are Correct");
+          
 
     
             
             // color the answers green
-            answerContainers[i].style.color = 'lightgreen';
+          answerContainers[i].style.color = 'lightgreen';
 
             
 
         }
 
         // if answer is wrong
-        if(userAnswer !=questions[i].correctAnswer){
+
+        if(userAnswer!=questions[i].correctAnswer){
             // add to the number of correct answers
-            numberIncorrect++;
+           
+             numberIncorrect++;
 
             // color the answers red
-            answerContainers[i].style.color = 'red';
+             answerContainers[i].style.color = 'red';
 
          
         }
          // if answer is blank
-         else{
+         if(!$('input[name=question'+i+']:checked').val()){ 
+
              // add to number of unanswered
+              
              numberUnanswered++;
+             numberIncorrect--;
 
         }
+
+        
+        
     }
 
-    function endQuiz(questions, quizContainer, resultsContainer){
 
-        if(i === (questions.length)) {
+    function endQuiz(questions, quizContainer, resultsContainer){
+            console.log("endQuiz");
+        
             showResults(questions, quizContainer, resultsContainer);
             stop();
-        }
     }
 
    
@@ -310,27 +346,48 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 showQuestions(questions, quizContainer);
 
 // end quiz so user input is not required
-endQuiz(questions, quizContainer, resultsContainer);
+
 
 // on submit, show results
 
 submitButton.onclick = function(){
     showResults(questions, quizContainer, resultsContainer);
+
     stop();
+    
   
 
    
 }
 
+
 }
+
+
+var button = document.createElement("button");
+button.innerHTML = "Restart?!";
+
+// 2. Append somewhere
+var body = document.getElementsByTagName("body")[0];
+body.appendChild(button);
+
+// 3. Add event handler
+button.addEventListener ("click", function() {
+  alert("Restart?!");
+ 
+  showQuestions(questions, quizContainer);
+  
+});
    //Stop timer from counting down once quiz is done
-   //remove show results button so that results automatically pop up when quize is complete
+   //go to next question when time is up alert shows
+   //Start Over?     Incomplete
+   //remove show results button so that results automatically pop up when quiz is complete
    //Need to restart timer after user selects an answer Complete
    //restart timer after time=0 Complete
    //Highlight answer choices when hovered over. css or may need to create a new type of button and update the button type in the click function
    //create a start over button via javascript
    //Add text to html to say if answer is correct or incorrect
-   //Fix unanswered variable to display unanswered++; when questions left blank
+   //Fix unanswered variable to display unanswered++; when questions left blank complete
    //modify css file so that questions and answers are centered/not close to left margin Complete
    //Display get results on last question Ommit
    //When user clicks show results Complete
@@ -338,7 +395,7 @@ submitButton.onclick = function(){
    //correct answers: '' Complete
    //incorrect answers:''Complete
    //unanswered: '' Complete
-   //Start Over?     Complete
+   //Start Over?     Incomplete
     
 
 
