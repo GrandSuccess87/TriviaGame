@@ -1,4 +1,9 @@
+$(document).ready(function() {
+
+// First create global variables for timer, questions, answers, answer types (correct, incorrect, unanswered)
+
 var number = 20;
+var intervalId;
 
 var userAnswer = '';
 
@@ -104,7 +109,7 @@ var questions = [
 
 ];
 
-
+//Here I define my timer functions
 
 function run() {
     clearInterval(intervalId);
@@ -145,7 +150,8 @@ function stop() {
 run();
 decrement();
 
-//Select HTML Tags and store references to the elements in variables
+
+//Select HTML Tags and store references to the elements in variables so that I can refer to them later
 
 var quizContainer =
 document.getElementById('quiz');
@@ -154,10 +160,8 @@ document.getElementById('results');
 var submitButton = 
 document.getElementById('submit');
 
-//Populate one question at a time
 
-
-//Display the quiz right away
+// Outline the parameters that will pass through the generateQuiz function to display the quiz right away
 
 generateQuiz(questions, quizContainer, resultsContainer, submitButton);
 
@@ -166,8 +170,14 @@ generateQuiz(questions, quizContainer, resultsContainer, submitButton);
 function generateQuiz(questions, quizContainer, resultsContainer, submitButton) {
     console.log("generateQuiz");
 
+    // Hide start button when game begins
+    $("#startButton").hide();
+    // Hide restart button when game begins
+    $("#restartButton").hide();
+
     function showQuestions(questions, quizContainer) {
         console.log("showQuestions");
+
         //Create a space to store HTML output and answer choices
         var output = [];
         var choices;
@@ -181,25 +191,12 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
             choices.push(
                 '<label>' +'<br>'
                 + '<input type="radio" name="question'+i+'"value="'+letter+'">'
-                
                 + letter + ': '
                 +
             questions[i].choices[letter]
                 + '</label>'
             );
         }
-        
-        //Using Template Literals
-        // choices.push(
-        //     `<label>
-        //       <input type="radio" name="question${questionNumber}" value="${letter}">
-        //       ${letter} :
-        //       ${currentQuestion.answers[letter]}
-        //     </label>`
-        //   );
-        // }
-        //Add this question and its answers to the output
-
             output.push(
                 '<div class="questionAnswerGroup" style="display: none;">'+
 
@@ -207,23 +204,20 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
                 + 
                 '<div class="answers">' + choices.join('') + '</div>'
                 +
-                '</div>' 
-
-                
+                '</div>'   
             );
-
         }
 
         //Combine the output list into one string of HTML and put on the page
         quizContainer.innerHTML = output.join('');
-    
 
- 
-
+    //Show next questions after user clicks a radio button
     $("[type='radio']").click(function(e){
         $(e.currentTarget).parent().parent().parent().hide();
         $(e.currentTarget).parent().parent().parent().next().show();
         reset();
+
+        //display results without user input
         /*
         if (i === questions.length -1 ) {
             endQuiz(resultsContainer);
@@ -235,11 +229,6 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     
 }
 
-    // $(".questionAnswerGroup").css({
-    //      e.currentTarget.parentElement.parentElement.parentElement.style.display = "none";
-    //         e.currentTarget.parentElement.parentElement.parentElement.nextSibling.style.display = "block";
-    //   });
-
     function showResults (questions, quizContainer, resultsContainer) {
         console.log("showResults");
          
@@ -248,15 +237,6 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         var answerContainers = 
         document.querySelectorAll('.answers');
 
-    // Keep track of user's answers
-
-        // var userAnswer = '';
-        // var numberCorrect = 0;
-        // var numberIncorrect = 0;
-        // var numberUnanswered = 0;
-
-        
-
     // For each question find the answer selected
 
         for(var i=0; i<questions.length; i++) {
@@ -264,45 +244,30 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         {}).value;
 
         if(userAnswer===questions[i].correctAnswer){
+
+            // Tell user they guessed correctly
+            // $("#quiz").html("<h2>Correct!</h2>");
             
             // add to the number of correct answers
             numberCorrect++;
-            // ("Yes! You Are Correct");
-          
-
-    
-            
-            // color the answers green
-          answerContainers[i].style.color = 'lightgreen';
-
-            
-
         }
 
         // if answer is wrong
-
         if(userAnswer!=questions[i].correctAnswer){
+
+            // $("#quiz").html("<h2>Incorrect! The Correct Answer is: "+questions[i].correctAnswer+"</h2>");
+
             // add to the number of correct answers
-           
              numberIncorrect++;
-
-            // color the answers red
-             answerContainers[i].style.color = 'red';
-
          
         }
          // if answer is blank
          if(!$('input[name=question'+i+']:checked').val()){ 
 
-             // add to number of unanswered
-              
+             // add to number of unanswered  
              numberUnanswered++;
              numberIncorrect--;
-
         }
-
-        
-        
     }
 
 
@@ -313,83 +278,90 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
             stop();
     }
 
-   
-
-    // show number of correct answers out of total
-    // resultsContainer.innerHTML = numberCorrect + ' out of ' + questions.length;
-
     // shower number of correct, incorrect, and unanswered questions
-
-    
-
     $("#show-number").html("<h2>" + number + "</h2>");
     $("#quiz").html("<h4>" + 'All Done, Heres How You Did!!' + "</h4>");
-    
     $("#resultsCorrect").html("<h2>" + 'Correct Answers:' + numberCorrect + "</h2>");
     $("#resultsIncorrect").html("<h2>" + 'Incorrect Answers:' + numberIncorrect + "</h2>");
     $("#resultsUnanswered").html("<h2>" + 'Unanswered:' + numberUnanswered + "</h2>");
+  
     
-    $("#startOver").hide();
-
+// hide submit button
     $("#submit").hide();
-   
-    
 
 
-    // resultsContainer.innerHTML = "<h2>" + 'Correct Answers:' + numberCorrect + "</h2>"; 
-    // resultsContainer.innerHTML = "<h3>" + 'Incorrect Answers:' + numberIncorrect + "</h3>";
-    
+    // show restart button
+     $("#restartButton").show();
 
 }
+
 
 // show quiz right away
 showQuestions(questions, quizContainer);
 
 // end quiz so user input is not required
 
+//
+
+
+// Restart Game
+
+restartButton.onclick = function(){
+    generateQuiz(questions, quizContainer, resultsContainer, submitButton);
+    showQuestions(questions, quizContainer);
+    reset();
+    $('.results').hide();
+    $("#submit").show();
+   
+   
+}
+
+//  $("#restartButton").click(function(){
+        
+//             generateQuiz(questions, quizContainer, resultsContainer, submitButton);
+//             showQuestions(questions, quizContainer);
+//             reset();
+//             $('.results').hide();
+//             $("#submit").show();
+       
+//         });
 
 // on submit, show results
 
 submitButton.onclick = function(){
     showResults(questions, quizContainer, resultsContainer);
-
     stop();
-    
-  
-
-   
 }
-
 
 }
 
-
-var button = document.createElement("button");
-button.innerHTML = "Restart?!";
-
-// 2. Append somewhere
-var body = document.getElementsByTagName("body")[0];
-body.appendChild(button);
-
-// 3. Add event handler
-button.addEventListener ("click", function() {
-  alert("Restart?!");
- 
-  showQuestions(questions, quizContainer);
-  
 });
+
    //Stop timer from counting down once quiz is done
    //go to next question when time is up alert shows
    //Start Over?     Incomplete
-   //remove show results button so that results automatically pop up when quiz is complete
+//    var button = document.createElement("button");
+   // button.innerHTML = "Restart?!";
+   
+   // // 2. Append somewhere
+   // var body = document.getElementsByTagName("body")[0];
+   // body.appendChild(button);
+   
+   // // 3. Add event handler
+   // button.addEventListener ("click", function() {
+   //   alert("Restart?!");
+    
+     
+   // });
+   //remove show results button so that results automatically pop up when quiz is done
    //Need to restart timer after user selects an answer Complete
    //restart timer after time=0 Complete
    //Highlight answer choices when hovered over. css or may need to create a new type of button and update the button type in the click function
-   //create a start over button via javascript
+
    //Add text to html to say if answer is correct or incorrect
    //Fix unanswered variable to display unanswered++; when questions left blank complete
    //modify css file so that questions and answers are centered/not close to left margin Complete
-   //Display get results on last question Ommit
+   
    //When user clicks show results Complete
    //update html to say All done, here's how you did! Complete
    //correct answers: '' Complete
