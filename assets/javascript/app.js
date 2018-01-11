@@ -1,22 +1,14 @@
 $(document).ready(function() {
 
 // First create global variables for timer, questions, answers, answer types (correct, incorrect, unanswered)
-
 var number = 20;
 var intervalId;
 var counter = 0;
-
 var userAnswer = '';
-
-
 var numberCorrect = 0;
 var numberIncorrect = 0;
 var numberUnanswered = 0;
-
 var intervalId;
-
-
-
 
 var questions = [
     {
@@ -107,53 +99,46 @@ var questions = [
         correctAnswer: 'C'
 
     }
-
 ];
 
 //Here I define my timer functions
-
 function run() {
+    console.log("run");
     clearInterval(intervalId);
     intervalId = setInterval(decrement, 1000);
 }
 
 function decrement() {
+    console.log("decrement");
     number--;
     $("#show-number").html("<h2>" + number + "</h2>");
     if (number === 0) {
         // stop();
         alert("Time is Up!");
         reset();
-       
-
     }
 }
 
 function reset () {
-
+    console.log("reset");
     number = 20;
     userAnswer = '';
     numberCorrect = 0;
     numberIncorrect = 0;
     numberUnanswered = 0;
-    
     run();
     decrement();
- 
-
 }
 
 function stop() {
+    console.log("stop");
     clearInterval(intervalId);
 }
-
 
 run();
 decrement();
 
-
-//Select HTML Tags and store references to the elements in variables so that I can refer to them later
-
+//Select HTML Tags and store reference containers to the elements in variables so that I can divide quiz into three containers and refer to them later
 var quizContainer =
 document.getElementById('quiz');
 var resultsContainer =
@@ -161,13 +146,10 @@ document.getElementById('results');
 var submitButton = 
 document.getElementById('submit');
 
-
 // Outline the parameters that will pass through the generateQuiz function to display the quiz right away
-
 generateQuiz(questions, quizContainer, resultsContainer, submitButton);
 
 //Create the generateQuiz function
-
 function generateQuiz(questions, quizContainer, resultsContainer, submitButton) {
     console.log("generateQuiz");
 
@@ -176,6 +158,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     // Hide restart button when game begins
     $("#restartButton").hide();
 
+    //Define showQuestions function
     function showQuestions(questions, quizContainer) {
         console.log("showQuestions");
 
@@ -208,24 +191,23 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
                 '</div>'   
             );
         }
-
         //Combine the output list into one string of HTML and put on the page
         quizContainer.innerHTML = output.join('');
 
-    //Show next questions after user clicks a radio button
-    $("[type='radio']").click(function(e){
+        //Show next questions after user clicks a radio button
+        $("[type='radio']").click(function(e){
         $(e.currentTarget).parent().parent().parent().hide();
         $(e.currentTarget).parent().parent().parent().next().show();
         reset();
 
-        //display results without user input
+        // Counter increases by 1 as user answer a question
         counter++; 
 
+        // end quiz so user input is not required
         if (counter === questions.length) {
-            
+            console.log(counter === questions.length);
             showResults(questions, quizContainer, resultsContainer);
-            stop();
-            
+            stop();  
         };
     })
 
@@ -237,56 +219,52 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         console.log("showResults");
          
     // Gather answer containers from quiz
-
         var answerContainers = 
         document.querySelectorAll('.answers');
 
     // For each question find the answer selected
-
         for(var i=0; i<questions.length; i++) {
             userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||
         {}).value;
 
         if(userAnswer===questions[i].correctAnswer){
-
-            // Tell user they guessed correctly
-            // $("#quiz").html("<h2>Correct!</h2>");
+            console.log(userAnswer===questions[i].correctAnswer);
             
-            // add to the number of correct answers
+            // add to the number of Correct answers
             numberCorrect++;
         }
 
         // if answer is wrong
         if(userAnswer!=questions[i].correctAnswer){
+            console.log(userAnswer!=questions[i].correctAnswer);
 
-            // $("#quiz").html("<h2>Incorrect! The Correct Answer is: "+questions[i].correctAnswer+"</h2>");
-
-            // add to the number of correct answers
+            // add to the number of Incorrect answers
              numberIncorrect++;
          
         }
+
          // if answer is blank
          if(!$('input[name=question'+i+']:checked').val()){ 
+            console.log(!$('input[name=question'+i+']:checked').val());
 
              // add to number of unanswered  
              numberUnanswered++;
              numberIncorrect--;
         }
 
+        //delay results to appear after restarting
         setTimeout(function(){
             $('.results').show();
         },1000);
         
     }
-
-
+    // Define end quiz function
     function endQuiz(questions, quizContainer, resultsContainer){
             console.log("endQuiz");
         
             showResults(questions, quizContainer, resultsContainer);
             stop();
     }
-
     // shower number of correct, incorrect, and unanswered questions
     $("#show-number").html("<h2>" + number + "</h2>");
     $("#quiz").html("<h4>" + 'All Done, Heres How You Did!!' + "</h4>");
@@ -294,95 +272,28 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     $("#resultsIncorrect").html("<h2>" + 'Incorrect Answers:' + numberIncorrect + "</h2>");
     $("#resultsUnanswered").html("<h2>" + 'Unanswered:' + numberUnanswered + "</h2>");
   
-    
-// hide submit button
+    // hide submit button
     $("#submit").hide();
-
 
     // show restart button
      $("#restartButton").show();
-
 }
+    // show quiz right away
+    showQuestions(questions, quizContainer);
 
-
-// show quiz right away
-showQuestions(questions, quizContainer);
-
-// end quiz so user input is not required
-
-//
-
-
-// Restart Game
-
-restartButton.onclick = function(){
+    // Restart Game
+    restartButton.onclick = function(){
     generateQuiz(questions, quizContainer, resultsContainer, submitButton);
     showQuestions(questions, quizContainer);
     reset();
     $('.results').hide();
     $("#submit").show();
-   
-   
-}
+    }
 
-//  $("#restartButton").click(function(){
-        
-//             generateQuiz(questions, quizContainer, resultsContainer, submitButton);
-//             showQuestions(questions, quizContainer);
-//             reset();
-//             $('.results').hide();
-//             $("#submit").show();
-       
-//         });
-
-// on submit, show results
-
-submitButton.onclick = function(){
+    // Submit button click function, show results
+    submitButton.onclick = function(){
     showResults(questions, quizContainer, resultsContainer);
     stop();
-}
-
-}
-
-});
-
-//create counter to ++ for each question until question.length=6 then show results
-
-   //Stop timer from counting down once quiz is done
-   //go to next question when time is up alert shows
-   //Start Over?     Incomplete
-//    var button = document.createElement("button");
-   // button.innerHTML = "Restart?!";
-   
-   // // 2. Append somewhere
-   // var body = document.getElementsByTagName("body")[0];
-   // body.appendChild(button);
-   
-   // // 3. Add event handler
-   // button.addEventListener ("click", function() {
-   //   alert("Restart?!");
-    
-     
-   // });
-   //remove show results button so that results automatically pop up when quiz is done
-   //Need to restart timer after user selects an answer Complete
-   //restart timer after time=0 Complete
-   //Highlight answer choices when hovered over. css or may need to create a new type of button and update the button type in the click function
-
-   //Add text to html to say if answer is correct or incorrect
-   //Fix unanswered variable to display unanswered++; when questions left blank complete
-   //modify css file so that questions and answers are centered/not close to left margin Complete
-   
-   //When user clicks show results Complete
-   //update html to say All done, here's how you did! Complete
-   //correct answers: '' Complete
-   //incorrect answers:''Complete
-   //unanswered: '' Complete
-   //Start Over?     Incomplete
-    
-
-
-
-
-
+    }
+}});
 
