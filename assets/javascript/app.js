@@ -4,6 +4,7 @@ $(document).ready(function() {
 
 var number = 20;
 var intervalId;
+var counter = 0;
 
 var userAnswer = '';
 
@@ -218,11 +219,14 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         reset();
 
         //display results without user input
-        /*
-        if (i === questions.length -1 ) {
-            endQuiz(resultsContainer);
+        counter++; 
+
+        if (counter === questions.length) {
+            
+            showResults(questions, quizContainer, resultsContainer);
             stop();
-        }*/
+            
+        };
     })
 
     $($(".questionAnswerGroup")[0]).show();
@@ -268,6 +272,11 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
              numberUnanswered++;
              numberIncorrect--;
         }
+
+        setTimeout(function(){
+            $('.results').show();
+        },1000);
+        
     }
 
 
@@ -336,6 +345,8 @@ submitButton.onclick = function(){
 }
 
 });
+
+//create counter to ++ for each question until question.length=6 then show results
 
    //Stop timer from counting down once quiz is done
    //go to next question when time is up alert shows
