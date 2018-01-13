@@ -198,7 +198,33 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         $("[type='radio']").click(function(e){
         $(e.currentTarget).parent().parent().parent().hide();
         $(e.currentTarget).parent().parent().parent().next().show();
+         
+
+        
+        if($(this).val().charAt(0)===questions[counter].correctAnswer){
+
+            $("#quiz").html("<h2>" + 'You Guessed Correctly!'+ "</h2>")
+            // $("#quiz").html("<img>" + 'src=assets/images/correct.answer.jpg' + "</>")
+
+           
+        }
+
+        if($(this).val().charAt(0)!=questions[counter].correctAnswer){
+            
+                        $("#quiz").html("<h2>" + 'You Guessed Inorrectly!'+ "</h2>")
+                        // $("#quiz").html("<img>" + 'src=assets/images/correct.answer.jpg' + "</>")
+            
+                       
+                    }
+
         reset();
+
+
+        console.log($(this).text().charAt(0));
+        console.log(questions[counter].correctAnswer);
+        console.log($(this).val());
+
+        
 
         // Counter increases by 1 as user answer a question
         counter++; 
@@ -229,6 +255,8 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 
         if(userAnswer===questions[i].correctAnswer){
             console.log(userAnswer===questions[i].correctAnswer);
+
+
             
             // add to the number of Correct answers
             numberCorrect++;
