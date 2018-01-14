@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 // First create global variables for timer, questions, answers, answer types (correct, incorrect, unanswered)
-var number = 20;
+var number = 40;
 var intervalId;
 var counter = 0;
 var userAnswer = '';
@@ -121,7 +121,7 @@ function decrement() {
 
 function reset () {
     console.log("reset");
-    number = 20;
+    number = 40;
     userAnswer = '';
     numberCorrect = 0;
     numberIncorrect = 0;
@@ -198,24 +198,31 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         $("[type='radio']").click(function(e){
         $(e.currentTarget).parent().parent().parent().hide();
         $(e.currentTarget).parent().parent().parent().next().show();
-         
-
-        
+       
         if($(this).val().charAt(0)===questions[counter].correctAnswer){
 
-            $("#quiz").html("<h2>" + 'You Guessed Correctly!'+ "</h2>")
-            // $("#quiz").html("<img>" + 'src=assets/images/correct.answer.jpg' + "</>")
-
+            $("#quiz").html("<h3>" + 'You Guessed Correctly!'+ "</h3>")
+            
+            var image1 = $("<img>");
+            
+            image1.attr("src","assets/images/correct.answer.jpg");
+            image1.attr("alt", "correct answer image");
+            $("#images").append(image1);
            
         }
 
         if($(this).val().charAt(0)!=questions[counter].correctAnswer){
             
-                        $("#quiz").html("<h2>" + 'You Guessed Inorrectly!'+ "</h2>")
-                        // $("#quiz").html("<img>" + 'src=assets/images/correct.answer.jpg' + "</>")
-            
-                       
-                    }
+            $("#quiz").html("<h3>" + 'You Guessed Inorrectly!'+ "</h3>")
+
+            var image2 = $("<img>");
+
+            image2.attr("src","assets/images/wrong.answer.jpg");
+            image2.attr("alt","wrong answer image");
+
+            $("#images").append(image2);
+           
+        }
 
         reset();
 
