@@ -1,7 +1,3 @@
-.wrapper {
- 
-}
-
 body {
     background-image: url("../images/background-image.paint.jpg");
 }
@@ -35,11 +31,6 @@ h2 {
    
 }
 
-/* .hashtagimage {
-    width: 700px;
-    height: 150px;
-} */
-
 #time {
     
     text-align: center;
@@ -70,12 +61,6 @@ h4 {
     margin-left: 10%;
 }
 
-h3 {
-    margin-left: 15%;
-}
-img {
-    margin-left: 40%;
-}
 #resultsCorrect, 
 #resultsIncorrect,
 #resultsUnanswered {
@@ -84,10 +69,6 @@ img {
     font-size: 20px;
 }
 
-
-.answers {
-    /* margin-left: 5%; */
-}
 
 label:hover {
     border: 3px solid white;
@@ -139,7 +120,3 @@ label:hover {
     background-color: #5EBD18;
 
 }
-
-
-
-

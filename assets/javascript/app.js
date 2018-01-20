@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 // First create global variables for timer, questions, answers, answer types (correct, incorrect, unanswered)
-var number = 40;
+var number = 30;
 var intervalId;
 var counter = 0;
 var userAnswer = '';
@@ -121,7 +121,7 @@ function decrement() {
 
 function reset () {
     console.log("reset");
-    number = 40;
+    number = 30;
     userAnswer = '';
     numberCorrect = 0;
     numberIncorrect = 0;
@@ -198,40 +198,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         $("[type='radio']").click(function(e){
         $(e.currentTarget).parent().parent().parent().hide();
         $(e.currentTarget).parent().parent().parent().next().show();
-       
-        if($(this).val().charAt(0)===questions[counter].correctAnswer){
-
-            $("#quiz").html("<h3>" + 'You Guessed Correctly!'+ "</h3>")
-            
-            var image1 = $("<img>");
-            
-            image1.attr("src","assets/images/correct.answer.jpg");
-            image1.attr("alt", "correct answer image");
-            $("#images").append(image1);
-           
-        }
-
-        if($(this).val().charAt(0)!=questions[counter].correctAnswer){
-            
-            $("#quiz").html("<h3>" + 'You Guessed Inorrectly!'+ "</h3>")
-
-            var image2 = $("<img>");
-
-            image2.attr("src","assets/images/wrong.answer.jpg");
-            image2.attr("alt","wrong answer image");
-
-            $("#images").append(image2);
-           
-        }
-
         reset();
-
-
-        console.log($(this).text().charAt(0));
-        console.log(questions[counter].correctAnswer);
-        console.log($(this).val());
-
-        
 
         // Counter increases by 1 as user answer a question
         counter++; 
@@ -262,8 +229,6 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 
         if(userAnswer===questions[i].correctAnswer){
             console.log(userAnswer===questions[i].correctAnswer);
-
-
             
             // add to the number of Correct answers
             numberCorrect++;
@@ -331,4 +296,3 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
     stop();
     }
 }});
-
