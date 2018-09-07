@@ -10,6 +10,7 @@ var numberIncorrect = 0;
 var numberUnanswered = 0;
 var intervalId;
 
+// Create an array of objects where each object will contain a question, answer choices, and the correct answer    
 var questions = [
     {
         question: "You are a Millennial if you were born between?",
@@ -108,6 +109,7 @@ function run() {
     intervalId = setInterval(decrement, 1000);
 }
 
+// Decrement function defined    
 function decrement() {
     console.log("decrement");
     number--;
@@ -118,7 +120,8 @@ function decrement() {
         reset();
     }
 }
-
+    
+// Reset function defined
 function reset () {
     console.log("reset");
     number = 30;
@@ -129,7 +132,8 @@ function reset () {
     run();
     decrement();
 }
-
+    
+// Stop function defined
 function stop() {
     console.log("stop");
     clearInterval(intervalId);
@@ -155,6 +159,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
 
     // Hide start button when game begins
     $("#startButton").hide();
+    
     // Hide restart button when game begins
     $("#restartButton").hide();
 
@@ -181,6 +186,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
                 + '</label>'
             );
         }
+            //Output used to store HTML elements for the questions and answer choices 
             output.push(
                 '<div class="questionAnswerGroup" style="display: none;">'+
 
@@ -203,7 +209,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         // Counter increases by 1 as user answer a question
         counter++; 
 
-        // end quiz so user input is not required
+        // end quiz, user input is not required
         if (counter === questions.length) {
             console.log(counter === questions.length);
             showResults(questions, quizContainer, resultsContainer);
@@ -226,7 +232,8 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
         for(var i=0; i<questions.length; i++) {
             userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||
         {}).value;
-
+            
+        // If user guesses correct answer increase score by 1.
         if(userAnswer===questions[i].correctAnswer){
             console.log(userAnswer===questions[i].correctAnswer);
             
@@ -234,7 +241,7 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton) 
             numberCorrect++;
         }
 
-        // if answer is wrong
+        // If answer is incorrect, decrease the score by 1.
         if(userAnswer!=questions[i].correctAnswer){
             console.log(userAnswer!=questions[i].correctAnswer);
 
