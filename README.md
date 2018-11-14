@@ -2,7 +2,7 @@
 
 Languages used: HTML5, CSS3, Javascript
 
-Click Start to begin the trivia.
+Click Start to begin the trivia game.
 
 You have 30 seconds to answer each question and a counter will be displayed to show how much time is remaining.
 
